@@ -41,11 +41,15 @@ Route.group(() => {
 
   Route.group(() =>{
     Route.get("/books", "BooksController.index");
-    Route.get("/books/:id", "BooksController.show");
-    Route.put("/books/update/:id", "BooksController.update");
+    Route.get("/books/:id", "BooksController.show");}).middleware("auth");
+
+  Route.group(() =>{
+    Route.put("/books/update/:id", "BooksController.update");}).middleware(["auth", "premium"]);
+
+  Route.group(() =>{
     Route.post("/books", "BooksController.store");
-    Route.post("/books/delete/:id", "BooksController.eliminarLibro");
-  }).middleware("auth");
+    Route.delete("/books/delete/:id", "BooksController.eliminarLibro");
+  }).middleware(["auth", "admin"]);
 
 }).prefix("api");
 
